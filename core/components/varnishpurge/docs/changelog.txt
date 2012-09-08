@@ -1,0 +1,6 @@
+Changelog for Varnish Purge (MODx Revolution)
+
+1.0-beta
+==========
+- Initial public release
+
