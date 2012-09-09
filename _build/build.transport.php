@@ -17,7 +17,7 @@ $hasTemplates = FALSE;
 $hasResources = FALSE;
 $hasValidator = TRUE; /* Run a validator before installing anything */
 $hasResolver = TRUE; /* Run a resolver after installing everything */
-$hasSetupOptions = FALSE; /* HTML/PHP script to interact with user */
+$hasSetupOptions = TRUE; /* HTML/PHP script to interact with user */
 $hasMenu = FALSE; /* Add items to the MODx Top Menu */
 $hasSettings = TRUE; /* Add new MODx System Settings */
 
