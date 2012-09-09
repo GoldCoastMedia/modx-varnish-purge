@@ -30,3 +30,17 @@
  */
 $_lang['varnishpurge'] = 'Varnish Purge';
 
+// Errors
+$_lang['varnishpurge.purge_success'] = 'Successfully purged [[+url]]';
+$_lang['varnishpurge.purge_success'] = 'Failed to purge [[+url]]. Server response: [[+code]].';
+
+// Settings
+$_lang['setting_varnishpurge.debug'] = 'Debug Purges';
+$_lang['setting_varnishpurge.debug_desc'] = 'Enable this to have purge responses sent to the MODx error log.';
+$_lang['setting_varnishpurge.domains'] = 'Domains to Purge';
+$_lang['setting_varnishpurge.domains_desc'] = 'A comma separated list of domains to purge when the cache is cleared.';
+$_lang['setting_varnishpurge.enabled'] = 'Enable Plugin';
+$_lang['setting_varnishpurge.enabled_desc'] = 'Enable / Disable the plugin from firing.';
+$_lang['setting_varnishpurge.timeout'] = 'Request Timeout';
+$_lang['setting_varnishpurge.timeout_desc'] = 'The amount of seconds to allow for each individual connection. NOTE: Set this low to prevent long delays when saving documents.';
+

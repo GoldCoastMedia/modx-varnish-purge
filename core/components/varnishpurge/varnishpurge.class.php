@@ -68,12 +68,12 @@ class VarnishPurge {
 
 		if($status === 200)
 		{
-			$msg = $modx->lexicon('varnishpurge.purge_success', array('url' => $url, 'code' => $status));
+			$msg = $modx->lexicon('varnishpurge.purge_success', array('url' => $url));
 			$this->modx->log(modX::LOG_LEVEL_DEBUG, $msg);
 		}
 		else
 		{
-			$msg = $modx->lexicon('varnishpurge.purge_success', array('url' => $url));
+			$msg = $modx->lexicon('varnishpurge.purge_fail', array('url' => $url, 'code' => $status));
 			$this->modx->log(modX::LOG_LEVEL_DEBUG, $msg);
 		}
 	}
