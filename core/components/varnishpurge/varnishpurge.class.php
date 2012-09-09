@@ -43,6 +43,14 @@ class VarnishPurge {
 		);
 	}
 
+	/**
+	 * Send a purge request via cURL
+	 *
+	 * @param   array  $urls     A list of URLs to purge
+	 * @param   int    $timeout  Connection timeout
+	 * @param   bool   $debug    Debug boolean
+	 * @return  void
+	 */
 	public function purge($urls = array(), $timeout = 10, $debug = FALSE)
 	{
 		$debug = $this->setting['debug'];
@@ -62,6 +70,13 @@ class VarnishPurge {
 		}
 	}
 
+	/**
+	 * Debug and log purge responses
+	 *
+	 * @param   string  $url     The purge URL
+	 * @param   int     $status  The purge response code
+	 * @return  void
+	 */
 	public function debug($url, $status)
 	{
 		$this->modx->setLogLevel(modX::LOG_LEVEL_DEBUG);
