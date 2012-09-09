@@ -25,11 +25,11 @@
  */
  
 require_once $modx->getOption('core_path') . 'components/varnishpurge/varnishpurge.class.php';
+$vp = new VarnishPurge($modx);
 
 $doc = $_REQUEST; // FIXME: Use a better way?
 $event = $modx->event->name;
 $enabled = $vp->setting['enabled'];
-$vp = new VarnishPurge($modx);
 
 // Document has been changed and saved
 if($enabled AND $event == 'OnDocFormSave')

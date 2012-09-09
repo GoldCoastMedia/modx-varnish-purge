@@ -15,7 +15,7 @@ $settings['setting_varnishpurge.domains']= $modx->newObject('modSystemSetting');
 $settings['setting_varnishpurge.domains']->fromArray(array (
     'key' => 'varnishpurge.domains',
     'description' => 'setting_varnishpurge.domains_desc',
-    'value' => 1,
+    'value' => '',
     'xtype' => 'textarea',
     'namespace' => 'varnishpurge',
     'area' => 'Caching',
@@ -35,7 +35,7 @@ $settings['setting_varnishpurge.timeout']= $modx->newObject('modSystemSetting');
 $settings['setting_varnishpurge.timeout']->fromArray(array (
     'key' => 'varnishpurge.timeout',
     'description' => 'setting_varnishpurge.timeout_desc',
-    'value' => 1,
+    'value' => 10,
     'xtype' => 'textfield',
     'namespace' => 'varnishpurge',
     'area' => 'Caching',

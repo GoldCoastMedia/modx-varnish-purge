@@ -34,7 +34,8 @@ class VarnishPurge {
 	public function __construct(modX &$modx)
 	{
 		$this->modx =& $modx;
-		
+		$this->modx->lexicon->load('varnishpurge:default');
+
 		$this->setting = array(
 			'debug'   => $modx->getOption($this->_namespace . 'debug'),
 			'enabled' => $modx->getOption($this->_namespace . 'enabled'),
@@ -58,13 +59,15 @@ class VarnishPurge {
 
 		foreach($urls as $url)
 		{
+			$url = $this->form_url($url);
+			
 			$req = curl_init($url);
 			curl_setopt($req, CURLOPT_CUSTOMREQUEST, 'PURGE');
 			curl_setopt($req, CURLOPT_CONNECTTIMEOUT, $timeout);
 			curl_setopt($req, CURLOPT_RETURNTRANSFER, TRUE);
 			curl_exec($req);
 			$status = curl_getinfo($req, CURLINFO_HTTP_CODE);
-		
+
 			if($debug)
 				$this->debug($url, $status);
 		}
@@ -77,19 +80,43 @@ class VarnishPurge {
 	 * @param   int     $status  The purge response code
 	 * @return  void
 	 */
-	public function debug($url, $status)
+	protected function debug($url, $status)
 	{
 		$this->modx->setLogLevel(modX::LOG_LEVEL_DEBUG);
 
 		if($status === 200)
 		{
-			$msg = $modx->lexicon('varnishpurge.purge_success', array('url' => $url));
+			$msg = $this->modx->lexicon('varnishpurge.purge_success', array('url' => $url));
 			$this->modx->log(modX::LOG_LEVEL_DEBUG, $msg);
 		}
 		else
 		{
-			$msg = $modx->lexicon('varnishpurge.purge_fail', array('url' => $url, 'code' => $status));
+			$msg = $this->modx->lexicon('varnishpurge.purge_fail', array(
+				'url'      => $url,
+				'code'     => $status,
+				'response' => $this->modx->lexicon('varnishpurge.varnishpurge.rescode_' . $status),
+			));
 			$this->modx->log(modX::LOG_LEVEL_DEBUG, $msg);
 		}
+	}
+	
+	/**
+	 * Check a hostname is in use. TODO: Improve this
+	 *
+	 * @param   string  $url  The purge URL
+	 * @return  string  $url  A formed URL
+	 */
+	protected function form_url($url = NULL)
+	{
+		$host = FALSE;
+		
+		if($parsed = parse_url($url))
+		{
+			if($parsed['host'])
+				$host = TRUE;
+		}
+		
+		// FIXME: Is SERVER_NAME reliable enough?
+		return $url = ($host) ? $url : 'http://' . $_SERVER['SERVER_NAME'] . '/' . $url;
 	}
 }
