@@ -9,9 +9,9 @@ from the server that your MODx installation resides on**
 Installation
 -----------
 - Install via MODx Package Manager.
-- In the MODx Manager go to System > System Setting. Find *varnishpurge* and configure.
+- In the MODx Manager go to *System > System Setting*. Find *varnishpurge* and configure.
 
 Documentation
 ------------
 Full detailed documentation available at:
-http://
+http://www.goldcoastmedia.co.uk/tools/modx-varnish-purge
