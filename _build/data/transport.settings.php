@@ -5,7 +5,7 @@ $settings['setting_varnishpurge.debug']= $modx->newObject('modSystemSetting');
 $settings['setting_varnishpurge.debug']->fromArray(array (
     'key' => 'varnishpurge.debug',
     'description' => 'setting_varnishpurge.debug_desc',
-    'value' => 0,
+    'value' => 1,
     'xtype' => 'combo-boolean',
     'namespace' => 'varnishpurge',
     'area' => 'Caching',

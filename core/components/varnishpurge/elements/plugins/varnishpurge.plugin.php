@@ -23,100 +23,30 @@
  * @package  varnishpurge
  * @author   Dan Gibbs <dan@goldcoastmedia.co.uk>
  */
+ 
+require_once $modx->getOption('core_path') . 'components/varnishpurge/varnishpurge.class.php';
+$vp = new VarnishPurge($modx);
 
-class VarnishPurge {
-	public $setting = array();
-	
-	protected $_modx = NULL;
-	protected $_debug = FALSE;
-	protected $_namespace = 'varnishpurge.';
+$doc = $_REQUEST; // FIXME: Use a better way?
+$event = $modx->event->name;
+$enabled = $vp->setting['enabled'];
 
-	public function __construct(modX &$modx)
+// Document has been changed and saved
+if($enabled AND $event == 'OnDocFormSave')
+{
+	if($doc['published'])
+		$vp->purge(array($modx->makeUrl($doc['id'])));
+}
+
+// Entire cache has been refreshed
+if($enabled AND $event == 'OnSiteRefresh')
+{
+	$urls = explode(',', $setting['domains']);
+
+	if( !is_array($urls))
 	{
-		$this->modx =& $modx;
-		$this->modx->lexicon->load('varnishpurge:default');
-
-		$this->setting = array(
-			'debug'   => $modx->getOption($this->_namespace . 'debug'),
-			'enabled' => $modx->getOption($this->_namespace . 'enabled'),
-			'domains' => $modx->getOption($this->_namespace . 'domains'),
-			'timeout' => $modx->getOption($this->_namespace . 'timeout'),
-		);
+		$urls = array($modx->makeUrl(1));
 	}
 
-	/**
-	 * Send a purge request via cURL
-	 *
-	 * @param   array  $urls     A list of URLs to purge
-	 * @param   int    $timeout  Connection timeout
-	 * @param   bool   $debug    Debug boolean
-	 * @return  void
-	 */
-	public function purge($urls = array(), $timeout = 10, $debug = FALSE)
-	{
-		$debug = $this->setting['debug'];
-		$timeout = $this->setting['timeout'];
-
-		foreach($urls as $url)
-		{
-			$url = $this->form_url($url);
-			
-			$req = curl_init($url);
-			curl_setopt($req, CURLOPT_CUSTOMREQUEST, 'PURGE');
-			curl_setopt($req, CURLOPT_CONNECTTIMEOUT, $timeout);
-			curl_setopt($req, CURLOPT_RETURNTRANSFER, TRUE);
-			curl_exec($req);
-			$status = curl_getinfo($req, CURLINFO_HTTP_CODE);
-
-			if($debug)
-				$this->debug($url, $status);
-		}
-	}
-
-	/**
-	 * Debug and log purge responses
-	 *
-	 * @param   string  $url     The purge URL
-	 * @param   int     $status  The purge response code
-	 * @return  void
-	 */
-	protected function debug($url, $status)
-	{
-		$this->modx->setLogLevel(modX::LOG_LEVEL_DEBUG);
-
-		if($status === 200)
-		{
-			$msg = $this->modx->lexicon('varnishpurge.purge_success', array('url' => $url));
-			$this->modx->log(modX::LOG_LEVEL_DEBUG, $msg);
-		}
-		else
-		{
-			$msg = $this->modx->lexicon('varnishpurge.purge_fail', array(
-				'url'      => $url,
-				'code'     => $status,
-				'response' => $this->modx->lexicon('varnishpurge.rescode_' . $status),
-			));
-			$this->modx->log(modX::LOG_LEVEL_DEBUG, $msg);
-		}
-	}
-	
-	/**
-	 * Check a hostname is in use. TODO: Improve this
-	 *
-	 * @param   string  $url  The purge URL
-	 * @return  string  $url  A formed URL
-	 */
-	protected function form_url($url = NULL)
-	{
-		$host = FALSE;
-		
-		if($parsed = parse_url($url))
-		{
-			if($parsed['host'])
-				$host = TRUE;
-		}
-		
-		// FIXME: Is SERVER_NAME reliable enough?
-		return $url = ($host) ? $url : 'http://' . $_SERVER['SERVER_NAME'] . '/' . $url;
-	}
+	$vp->purge($urls);
 }

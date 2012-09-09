@@ -17,7 +17,7 @@ This is an example for allowing HTTP based purging locally. Please refer
 to the official documentation. **Example only using 3.0.3**
 
 ```
-# Allow purging locally
+# Allow purging locally (NOTE: you will need to add the servers remote IP)
 acl purge {
 	"localhost";
 	"127.0.0.1";
