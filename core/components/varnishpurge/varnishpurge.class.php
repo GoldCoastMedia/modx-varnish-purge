@@ -61,7 +61,7 @@ class VarnishPurge {
 		{
 			$url = $this->form_url($url);
 			
-			$req = curl_init($url);
+			$req = curl_init(trim($url));
 			curl_setopt($req, CURLOPT_CUSTOMREQUEST, 'PURGE');
 			curl_setopt($req, CURLOPT_CONNECTTIMEOUT, $timeout);
 			curl_setopt($req, CURLOPT_RETURNTRANSFER, TRUE);
@@ -94,7 +94,7 @@ class VarnishPurge {
 			$msg = $this->modx->lexicon('varnishpurge.purge_fail', array(
 				'url'      => $url,
 				'code'     => $status,
-				'response' => $this->modx->lexicon('varnishpurge.varnishpurge.rescode_' . $status),
+				'response' => $this->modx->lexicon('varnishpurge.rescode_' . $status),
 			));
 			$this->modx->log(modX::LOG_LEVEL_DEBUG, $msg);
 		}

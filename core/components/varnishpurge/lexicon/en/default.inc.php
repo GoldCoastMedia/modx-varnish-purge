@@ -32,17 +32,20 @@ $_lang['varnishpurge'] = 'Varnish Purge';
 
 // Errors
 $_lang['varnishpurge.purge_success'] = 'Successfully purged [[+url]]';
-$_lang['varnishpurge.purge_fail'] = 'Failed to purge [[+url]]. Server response: [[+code]] ([[+response]])';
+$_lang['varnishpurge.purge_fail'] = 'Failed Varnish cache purge on [[+url]]. [[+code]] ([[+response]])';
 
 // Settings
 $_lang['setting_varnishpurge.debug'] = 'Debug Purges';
 $_lang['setting_varnishpurge.debug_desc'] = 'Enable this to have purge responses sent to the MODx error log.';
+
 $_lang['setting_varnishpurge.domains'] = 'Domains to Purge';
 $_lang['setting_varnishpurge.domains_desc'] = 'A comma separated list of domains to purge when the cache is cleared.';
+
 $_lang['setting_varnishpurge.enabled'] = 'Enable Plugin';
 $_lang['setting_varnishpurge.enabled_desc'] = 'Enable / Disable the plugin from firing.';
+
 $_lang['setting_varnishpurge.timeout'] = 'Request Timeout';
-$_lang['setting_varnishpurge.timeout_desc'] = 'The amount of seconds to allow for each individual connection. NOTE: Set this low to prevent long delays when saving documents.';
+$_lang['setting_varnishpurge.timeout_desc'] = 'The amount of seconds to allow for each individual connection. NOTE: Set this low to prevent long delays when saving documents or clearing the cache.';
 
 // Standard HTTP responses
 $_lang['varnishpurge.rescode_100'] = 'Continue';
@@ -99,5 +102,5 @@ $_lang['varnishpurge.rescode_505'] = 'HTTP Version Not Supported';
 $_lang['varnishpurge.rescode_506'] = 'Variant Also Negotiates';
 $_lang['varnishpurge.rescode_507'] = 'Insufficient Storage';
 $_lang['varnishpurge.rescode_509'] = 'Bandwidth Limit Exceeded';
-$_lang['varnishpurge.rescode_510'] = 'Not Extended'
+$_lang['varnishpurge.rescode_510'] = 'Not Extended';
 
