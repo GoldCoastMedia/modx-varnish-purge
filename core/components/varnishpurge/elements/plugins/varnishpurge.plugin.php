@@ -34,6 +34,8 @@ $enabled = $vp->setting['enabled'];
 // Document has been changed and saved
 if($enabled AND $event == 'OnDocFormSave')
 {
+	$vp->site = MODX_SITE_URL;
+	
 	if($doc['published'])
 		$vp->purge(array($modx->makeUrl($doc['id'])));
 }
@@ -45,7 +47,7 @@ if($enabled AND $event == 'OnSiteRefresh')
 
 	if( !is_array($urls))
 	{
-		$urls = array($modx->makeUrl(1));
+		$urls = array(MODX_SITE_URL);
 	}
 
 	$vp->purge($urls);

@@ -25,6 +25,7 @@
  */
 
 class VarnishPurge {
+	public $site = NULL;
 	public $setting = array();
 	
 	protected $_modx = NULL;
@@ -116,7 +117,6 @@ class VarnishPurge {
 				$host = TRUE;
 		}
 		
-		// FIXME: Is SERVER_NAME reliable enough?
-		return $url = ($host) ? $url : 'http://' . $_SERVER['SERVER_NAME'] . '/' . $url;
+		return $url = ($host) ? $url : $this->site. '/' . $url;
 	}
 }
