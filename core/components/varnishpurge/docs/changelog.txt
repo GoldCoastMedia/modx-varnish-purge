@@ -1,5 +1,12 @@
 Changelog for Varnish Purge (MODx Revolution)
 
+1.0.1-beta
+==========
+- file_get_contents is set to default upon installation if cURL module not available
+- Added a system setting for PURGE request method
+- Added file_get_contents support for PURGE requests
+- MODX_SITE_URL constant used for guessing hosts more accurately when purging an entire domain
+
 1.0.0-beta
 ==========
 - Initial public release

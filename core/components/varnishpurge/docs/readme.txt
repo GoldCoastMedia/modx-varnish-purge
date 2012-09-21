@@ -1,6 +1,6 @@
 Varnish Purge
 =============
-Version: 1.0.0-beta (2012-09-09)
+Version: 1.0.1-beta (2012-09-21)
 Authors: Dan Gibbs <dan@goldcoastmedia.co.uk>
 
 Purge MODx pages from the Varnish cache when editing or updating a document.
