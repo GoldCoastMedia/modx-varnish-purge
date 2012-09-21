@@ -33,6 +33,8 @@ $_lang['varnishpurge'] = 'Varnish Purge';
 // Errors
 $_lang['varnishpurge.purge_success'] = 'Successfully purged [[+url]]';
 $_lang['varnishpurge.purge_fail'] = 'Failed Varnish cache purge on [[+url]]. [[+code]] ([[+response]])';
+$_lang['varnishpurge.invalid_method'] = 'Invalid method \'[[+method]]\'. Please set
+the method to \'curl\' or \'file_get_contents\' via the System Settings.';
 
 // Settings
 $_lang['setting_varnishpurge.debug'] = 'Debug Purges';

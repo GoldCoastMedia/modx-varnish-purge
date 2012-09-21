@@ -27,7 +27,7 @@
 class VarnishPurge {
 	public $site = NULL;
 	public $setting = array();
-	
+
 	protected $_modx = NULL;
 	protected $_debug = FALSE;
 	protected $_namespace = 'varnishpurge.';
@@ -42,6 +42,7 @@ class VarnishPurge {
 			'enabled' => $modx->getOption($this->_namespace . 'enabled'),
 			'domains' => $modx->getOption($this->_namespace . 'domains'),
 			'timeout' => $modx->getOption($this->_namespace . 'timeout'),
+			'method'  => $modx->getOption($this->_namespace . 'method'),
 		);
 	}
 
@@ -49,28 +50,65 @@ class VarnishPurge {
 	 * Send a purge request via cURL
 	 *
 	 * @param   array  $urls     A list of URLs to purge
+	 * @param   string $method   HTTP request method
 	 * @param   int    $timeout  Connection timeout
 	 * @param   bool   $debug    Debug boolean
 	 * @return  void
 	 */
-	public function purge($urls = array(), $timeout = 10, $debug = FALSE)
+	public function purge($urls = array(), $method = 'curl', $timeout = 10, $debug = FALSE)
 	{
-		$debug = $this->setting['debug'];
+		$method  = strtolower($this->setting['method']);
 		$timeout = $this->setting['timeout'];
+		$debug   = $this->setting['debug'];
 
-		foreach($urls as $url)
+		// Send requests via cURL
+		if($method === 'curl')
 		{
-			$url = $this->form_url($url);
-			
-			$req = curl_init(trim($url));
-			curl_setopt($req, CURLOPT_CUSTOMREQUEST, 'PURGE');
-			curl_setopt($req, CURLOPT_CONNECTTIMEOUT, $timeout);
-			curl_setopt($req, CURLOPT_RETURNTRANSFER, TRUE);
-			curl_exec($req);
-			$status = curl_getinfo($req, CURLINFO_HTTP_CODE);
+			foreach($urls as $url)
+			{
+				$url = trim($this->form_url($url));
 
-			if($debug)
-				$this->debug($url, $status);
+				$req = curl_init(trim($url));
+				curl_setopt($req, CURLOPT_CUSTOMREQUEST, 'PURGE');
+				curl_setopt($req, CURLOPT_CONNECTTIMEOUT, $timeout);
+				curl_setopt($req, CURLOPT_RETURNTRANSFER, TRUE);
+				curl_exec($req);
+
+				if($debug)
+				{
+					$status = curl_getinfo($req, CURLINFO_HTTP_CODE);
+					$this->debug($url, $status);
+				}
+			}
+		}
+		// Send requests via file_get_contents
+		elseif($method === 'file_get_contents')
+		{
+			foreach($urls as $url)
+			{
+				$url = trim($this->form_url($url));
+
+				$context = stream_context_create(array(
+					'http' => array(
+						'method'  => 'PURGE',
+						'timeout' => $timeout
+						),
+					)
+				);
+
+				file_get_contents($url, FALSE, $context);
+
+				if($http_response_header AND $debug)
+				{
+					$status = sscanf($http_response_header[0], 'HTTP/%*d.%*d %d', FALSE);
+					$this->debug($url, $status);
+				}
+			}
+		}
+		else
+		{
+			$msg = $this->modx->lexicon('varnishpurge.invalid_method', array('method' => $method));
+			$this->modx->log(modX::LOG_LEVEL_DEBUG, $msg);
 		}
 	}
 
@@ -100,7 +138,7 @@ class VarnishPurge {
 			$this->modx->log(modX::LOG_LEVEL_DEBUG, $msg);
 		}
 	}
-	
+
 	/**
 	 * Check a hostname is in use. TODO: Improve this
 	 *
@@ -110,13 +148,13 @@ class VarnishPurge {
 	protected function form_url($url = NULL)
 	{
 		$host = FALSE;
-		
+
 		if($parsed = parse_url($url))
 		{
 			if($parsed['host'])
 				$host = TRUE;
 		}
-		
+
 		return $url = ($host) ? $url : $this->site. '/' . $url;
 	}
 }
