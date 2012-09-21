@@ -49,6 +49,9 @@ $_lang['setting_varnishpurge.enabled_desc'] = 'Enable / Disable the plugin from 
 $_lang['setting_varnishpurge.timeout'] = 'Request Timeout';
 $_lang['setting_varnishpurge.timeout_desc'] = 'The amount of seconds to allow for each individual connection. NOTE: Set this low to prevent long delays when saving documents or clearing the cache.';
 
+$_lang['setting_varnishpurge.method'] = 'Request Method';
+$_lang['setting_varnishpurge.method_desc'] = 'The request method to use. Set as \'file_get_contents\' or \'curl\'.';
+
 // Standard HTTP responses
 $_lang['varnishpurge.rescode_100'] = 'Continue';
 $_lang['varnishpurge.rescode_101'] = 'Switching Protocols';

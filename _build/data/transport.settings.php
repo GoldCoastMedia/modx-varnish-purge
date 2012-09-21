@@ -41,4 +41,14 @@ $settings['setting_varnishpurge.timeout']->fromArray(array (
     'area' => 'Caching',
 ), '', true, true);
 
+$settings['setting_varnishpurge.method']= $modx->newObject('modSystemSetting');
+$settings['setting_varnishpurge.method']->fromArray(array (
+    'key' => 'varnishpurge.method',
+    'description' => 'setting_varnishpurge.method_desc',
+    'value' => 'curl',
+    'xtype' => 'textfield',
+    'namespace' => 'varnishpurge',
+    'area' => 'Caching',
+), '', true, true);
+
 return $settings;

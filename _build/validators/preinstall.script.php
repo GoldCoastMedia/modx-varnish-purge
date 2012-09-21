@@ -36,13 +36,14 @@ switch($options[xPDOTransport::PACKAGE_ACTION]) {
 
 		// Check cURL
 		if (!in_array('curl', get_loaded_extensions())) {
-			$modx->log(xPDO::LOG_LEVEL_ERROR, '** IMPORTANT: You must 
-			have the cURL extension to install this plugin. I do plan 
-			to add other methods but cURL is the only supported 
-			currently.');
-			$success = FALSE;
+			// Set to file_get_contents if missing
+			$method = $modx->getObject('modSystemSetting', 'varnishpurge.method');
+			$method->set('value', 'file_get_contents');
+			$method->save();
+			
+			$success = true;
 		}
-        	break;
+		break;
 
 	case xPDOTransport::ACTION_UPGRADE:
 		$success = true;
