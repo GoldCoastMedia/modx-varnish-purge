@@ -27,8 +27,8 @@
 class VarnishPurge {
 	public $site = NULL;
 	public $setting = array();
+	public $modx;
 
-	protected $_modx = NULL;
 	protected $_debug = FALSE;
 	protected $_namespace = 'varnishpurge.';
 
@@ -37,13 +37,17 @@ class VarnishPurge {
 		$this->modx =& $modx;
 		$this->modx->lexicon->load('varnishpurge:default');
 
-		$this->setting = array(
-			'debug'   => $modx->getOption($this->_namespace . 'debug'),
-			'enabled' => $modx->getOption($this->_namespace . 'enabled'),
-			'domains' => $modx->getOption($this->_namespace . 'domains'),
-			'timeout' => $modx->getOption($this->_namespace . 'timeout'),
-			'method'  => $modx->getOption($this->_namespace . 'method'),
+		$settings = $this->modx->newQuery('modSystemSetting')->where(
+			array('key:LIKE' => $this->_namespace . '%')
 		);
+
+		$settings = $this->modx->getCollection('modSystemSetting', $settings);
+		
+		foreach($settings as $key => $setting) {
+			$key = str_replace($this->_namespace, '', $key);
+			
+			$this->setting[$key] = $setting->get('value');
+		}
 	}
 
 	/**
@@ -62,7 +66,7 @@ class VarnishPurge {
 		$debug   = $this->setting['debug'];
 
 		// Send requests via cURL
-		if($method === 'curl')
+		if($method === 'curl' AND function_exists('curl'))
 		{
 			foreach($urls as $url)
 			{
@@ -82,7 +86,7 @@ class VarnishPurge {
 			}
 		}
 		// Send requests via file_get_contents
-		elseif($method === 'file_get_contents')
+		elseif($method === 'file_get_contents' AND function_exists('file_get_contents') )
 		{
 			foreach($urls as $url)
 			{
@@ -100,15 +104,15 @@ class VarnishPurge {
 
 				if($http_response_header AND $debug)
 				{
-					$status = sscanf($http_response_header[0], 'HTTP/%*d.%*d %d', FALSE);
-					$this->debug($url, $status);
+					$status = sscanf($http_response_header[0], 'HTTP/%*d.%*d %d');
+					$this->debug($url, $status[0]);
 				}
 			}
 		}
 		else
 		{
 			$msg = $this->modx->lexicon('varnishpurge.invalid_method', array('method' => $method));
-			$this->modx->log(modX::LOG_LEVEL_DEBUG, $msg);
+			$this->modx->log(modX::LOG_LEVEL_ERROR, $msg);
 		}
 	}
 
@@ -121,12 +125,10 @@ class VarnishPurge {
 	 */
 	protected function debug($url, $status)
 	{
-		$this->modx->setLogLevel(modX::LOG_LEVEL_DEBUG);
-
 		if($status === 200)
 		{
 			$msg = $this->modx->lexicon('varnishpurge.purge_success', array('url' => $url));
-			$this->modx->log(modX::LOG_LEVEL_DEBUG, $msg);
+			$this->modx->log(modX::LOG_LEVEL_INFO, $msg);
 		}
 		else
 		{

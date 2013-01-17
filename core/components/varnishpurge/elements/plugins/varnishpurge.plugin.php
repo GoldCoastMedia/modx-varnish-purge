@@ -23,7 +23,10 @@
  * @package  varnishpurge
  * @author   Dan Gibbs <dan@goldcoastmedia.co.uk>
  */
- 
+
+$modx->setDebug(E_ALL & ~E_NOTICE);
+$modx->setLogLevel(modX::LOG_LEVEL_DEBUG);
+	
 require_once $modx->getOption('core_path') . 'components/varnishpurge/varnishpurge.class.php';
 $vp = new VarnishPurge($modx);
 
@@ -37,7 +40,9 @@ if($enabled AND $event == 'OnDocFormSave')
 	$vp->site = MODX_SITE_URL;
 	
 	if($doc['published'])
-		$vp->purge(array($modx->makeUrl($doc['id'])));
+		$vp->purge(array(
+			$modx->makeUrl($doc['id']),
+		));
 }
 
 // Entire cache has been refreshed
@@ -52,3 +57,5 @@ if($enabled AND $event == 'OnSiteRefresh')
 
 	$vp->purge($urls);
 }
+
+

@@ -35,7 +35,7 @@ $settings['setting_varnishpurge.timeout']= $modx->newObject('modSystemSetting');
 $settings['setting_varnishpurge.timeout']->fromArray(array (
     'key' => 'varnishpurge.timeout',
     'description' => 'setting_varnishpurge.timeout_desc',
-    'value' => 10,
+    'value' => 5,
     'xtype' => 'textfield',
     'namespace' => 'varnishpurge',
     'area' => 'Caching',
