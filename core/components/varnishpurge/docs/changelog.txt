@@ -1,5 +1,13 @@
 Changelog for Varnish Purge (MODx Revolution)
 
+1.0.2-beta
+==========
+- Fixed cURL potentially being incorrectly reported as not callable
+- Fixed multiple domain purging
+- Disabled debugging by default
+- Added new system setting to enable/disable documents getting purged when saved in MODx
+- Added new system setting to enable/disable the entire domain getting purged when clearing the MODx cache
+
 1.0.1-beta
 ==========
 - Fixed a potential fatal error that could cause a 'Save' loop

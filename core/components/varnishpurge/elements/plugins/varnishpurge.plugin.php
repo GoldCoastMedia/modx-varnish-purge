@@ -35,7 +35,7 @@ $event = $modx->event->name;
 $enabled = $vp->setting['enabled'];
 
 // Document has been changed and saved
-if($enabled AND $event == 'OnDocFormSave')
+if($enabled AND $event == 'OnDocFormSave' AND $vp->setting['purge_document'])
 {
 	$vp->site = MODX_SITE_URL;
 	
@@ -46,9 +46,9 @@ if($enabled AND $event == 'OnDocFormSave')
 }
 
 // Entire cache has been refreshed
-if($enabled AND $event == 'OnSiteRefresh')
+if($enabled AND $event == 'OnSiteRefresh' AND $vp->setting['purge_website'])
 {
-	$urls = explode(',', $setting['domains']);
+	$urls = explode(',', $vp->setting['domains']);
 
 	if( !is_array($urls))
 	{

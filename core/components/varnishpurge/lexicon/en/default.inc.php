@@ -37,20 +37,26 @@ $_lang['varnishpurge.invalid_method'] = 'Varnish Purge: Invalid method \'[[+meth
 the method to \'curl\' or \'file_get_contents\' via the System Settings.';
 
 // Settings
-$_lang['setting_varnishpurge.debug'] = 'Debug Purges';
+$_lang['setting_varnishpurge.debug'] = 'Debug';
 $_lang['setting_varnishpurge.debug_desc'] = 'Enable this to have purge responses sent to the MODx error log.';
 
-$_lang['setting_varnishpurge.domains'] = 'Domains to Purge';
+$_lang['setting_varnishpurge.domains'] = 'List of Domains to Purge';
 $_lang['setting_varnishpurge.domains_desc'] = 'A comma separated list of domains to purge when the cache is cleared.';
 
-$_lang['setting_varnishpurge.enabled'] = 'Enable Plugin';
-$_lang['setting_varnishpurge.enabled_desc'] = 'Enable / Disable the plugin from firing.';
+$_lang['setting_varnishpurge.enabled'] = 'Enabled';
+$_lang['setting_varnishpurge.enabled_desc'] = 'Enable / Disable the plugin.';
 
 $_lang['setting_varnishpurge.timeout'] = 'Request Timeout';
 $_lang['setting_varnishpurge.timeout_desc'] = 'The amount of seconds to allow for each individual connection. NOTE: Set this low to prevent long delays when saving documents or clearing the cache.';
 
 $_lang['setting_varnishpurge.method'] = 'Request Method';
 $_lang['setting_varnishpurge.method_desc'] = 'The request method to use. Set as \'file_get_contents\' or \'curl\'.';
+
+$_lang['setting_varnishpurge.purge_document'] = 'Purge Documents on Save';
+$_lang['setting_varnishpurge.purge_document_desc'] = 'When enabled documents are purged from the Varnish cache each time they are updated/saved in MODx.';
+
+$_lang['setting_varnishpurge.purge_website'] = 'Purge Website Cache';
+$_lang['setting_varnishpurge.purge_website_desc'] = 'When enabled the entire website will be purged from Varnish when the MODx cache is cleared.';
 
 // Standard HTTP responses
 $_lang['varnishpurge.rescode_100'] = 'Continue';

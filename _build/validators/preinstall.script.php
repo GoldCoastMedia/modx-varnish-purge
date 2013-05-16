@@ -35,7 +35,7 @@ switch($options[xPDOTransport::PACKAGE_ACTION]) {
 		$success = true;
 
 		// Check cURL
-		if (!in_array('curl', get_loaded_extensions())) {
+		if(!is_callable('curl_init')) {
 			// Set to file_get_contents if missing
 			$method = $modx->getObject('modSystemSetting', 'varnishpurge.method');
 			$method->set('value', 'file_get_contents');

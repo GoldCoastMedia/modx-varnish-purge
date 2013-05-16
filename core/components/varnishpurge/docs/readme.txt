@@ -1,11 +1,15 @@
 Varnish Purge
 =============
-Version: 1.0.1-beta (2012-09-21)
+Version: 1.0.2-beta (2013-05-16)
 Authors: Dan Gibbs <dan@goldcoastmedia.co.uk>
 
-Purge documents and objects from the Varnish cache when editing or updating a document.
+This plugin helps to keep your MODx website up to date when using MODx with Varnish.
 
-Please configure your Varnish VCL to allow purge requests to be made
+Optionally purge documents, objects or the entire domain from Varnish when:
+- A document is saved/updated (to clear that page from the cache)
+- The MODx cache is cleared (to clear the entire domains cache)
+
+Your Varnish VCL must be configured to allow purge requests to be made
 from the server that your MODx installation resides on. See the documentation
 for more information.
 

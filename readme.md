@@ -1,9 +1,12 @@
 Varnish Purge for MODx Revolution
-=============================
+=================================
 
 A MODx *Revolution* plugin that automatically purges pages when they are updated.
+This plugin allows you to automatically send optional HTTP PURGE requests when:
+- A document is saved/updated (to clear that page from the cache)
+- The MODx cache is cleared (to clear the entire domains cache)
 
-**Please configure your Varnish VCL to allow purge requests to be made
+**Your Varnish VCL must be configured to allow purge requests to be made
 from the server that your MODx installation resides on. See below for an example.**
 
 Installation
@@ -14,7 +17,7 @@ Installation
 HTTP Purging
 -----------
 This is an example for allowing HTTP based purging locally. Please refer
-to the official documentation. **Example only using 3.0.3**
+to the official documentation. **Example only (3.0.3)**
 
 ```
 # Allow purging locally (NOTE: you will need to add the servers remote IP)

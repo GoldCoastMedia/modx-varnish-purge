@@ -66,7 +66,7 @@ class VarnishPurge {
 		$debug   = $this->setting['debug'];
 
 		// Send requests via cURL
-		if($method === 'curl' AND function_exists('curl'))
+		if($method === 'curl' AND is_callable('curl_init') )
 		{
 			foreach($urls as $url)
 			{
@@ -86,7 +86,7 @@ class VarnishPurge {
 			}
 		}
 		// Send requests via file_get_contents
-		elseif($method === 'file_get_contents' AND function_exists('file_get_contents') )
+		elseif($method === 'file_get_contents' AND is_callable('file_get_contents') )
 		{
 			foreach($urls as $url)
 			{
