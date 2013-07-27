@@ -2,7 +2,7 @@
 /* Set package info be sure to set all of these */
 define('PKG_NAME','Varnish Purge');
 define('PKG_NAME_LOWER','varnishpurge');
-define('PKG_VERSION','1.0.2');
+define('PKG_VERSION','1.0.3');
 define('PKG_RELEASE','beta');
 define('PKG_CATEGORY','Varnish Purge');
 

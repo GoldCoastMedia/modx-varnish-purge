@@ -59,6 +59,7 @@ $_lang['setting_varnishpurge.purge_website'] = 'Purge Website Cache';
 $_lang['setting_varnishpurge.purge_website_desc'] = 'When enabled the entire website will be purged from Varnish when the MODx cache is cleared.';
 
 // Standard HTTP responses
+$_lang['varnishpurge.rescode_0']   = 'Connection Failed. Please configure Varnish to accept HTTP purge requests.';
 $_lang['varnishpurge.rescode_100'] = 'Continue';
 $_lang['varnishpurge.rescode_101'] = 'Switching Protocols';
 $_lang['varnishpurge.rescode_102'] = 'Processing';

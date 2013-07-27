@@ -1,5 +1,9 @@
 Changelog for Varnish Purge (MODx Revolution)
 
+1.0.3-beta
+==========
+- Added lexicon string for when Varnish refuses or rejects a purge request
+
 1.0.2-beta
 ==========
 - Fixed cURL potentially being incorrectly reported as not callable
