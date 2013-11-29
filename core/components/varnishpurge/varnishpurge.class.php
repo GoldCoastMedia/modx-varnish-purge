@@ -25,12 +25,13 @@
  */
 
 class VarnishPurge {
-	public $site = NULL;
+
+	public $site    = NULL;
 	public $setting = array();
 	public $modx;
 
-	protected $_debug = FALSE;
-	protected $_namespace = 'varnishpurge.';
+	private $_debug = FALSE;
+	private $_namespace = 'varnishpurge.';
 
 	public function __construct(modX &$modx)
 	{
@@ -78,10 +79,14 @@ class VarnishPurge {
 				curl_setopt($req, CURLOPT_RETURNTRANSFER, TRUE);
 				curl_exec($req);
 
-				if($debug)
+				$status = curl_getinfo($req, CURLINFO_HTTP_CODE);
+
+				if($status)
 				{
-					$status = curl_getinfo($req, CURLINFO_HTTP_CODE);
-					$this->debug($url, $status);
+					if($debug)
+						$this->debug($url, $status);
+
+					$this->debug($url, $status, FALSE);
 				}
 			}
 		}
@@ -102,10 +107,14 @@ class VarnishPurge {
 
 				file_get_contents($url, FALSE, $context);
 
-				if($http_response_header AND $debug)
+				$status = sscanf($http_response_header[0], 'HTTP/%*d.%*d %d');
+
+				if($http_response_header)
 				{
-					$status = sscanf($http_response_header[0], 'HTTP/%*d.%*d %d');
-					$this->debug($url, $status[0]);
+					if($debug)
+						$this->debug($url, $status[0]);
+
+					$this->debug($url, $status[0], FALSE);
 				}
 			}
 		}
@@ -121,14 +130,19 @@ class VarnishPurge {
 	 *
 	 * @param   string  $url     The purge URL
 	 * @param   int     $status  The purge response code
+	 * @param   bool    $log     Send to the MODX log
 	 * @return  void
 	 */
-	protected function debug($url, $status)
+	protected function debug($url, $status, $log = TRUE)
 	{
 		if($status === 200)
 		{
 			$msg = $this->modx->lexicon('varnishpurge.purge_success', array('url' => $url));
-			$this->modx->log(modX::LOG_LEVEL_INFO, $msg);
+			
+			if($log)
+				$this->modx->log(modX::LOG_LEVEL_INFO, $msg);
+
+			$this->modx->error->success($msg);
 		}
 		else
 		{
@@ -137,7 +151,11 @@ class VarnishPurge {
 				'code'     => $status,
 				'response' => $this->modx->lexicon('varnishpurge.rescode_' . $status),
 			));
-			$this->modx->log(modX::LOG_LEVEL_DEBUG, $msg);
+			
+			if($log)
+				$this->modx->log(modX::LOG_LEVEL_DEBUG, $msg);
+			
+			$this->modx->error->failure($msg);
 		}
 	}
 
