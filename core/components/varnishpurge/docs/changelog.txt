@@ -3,6 +3,8 @@ Changelog for Varnish Purge (MODx Revolution)
 1.0.3-beta
 ==========
 - Added lexicon string for when Varnish refuses or rejects a purge request
+- Fixed a bug causing the error log to fill with "<id> was requested but no alias was located"
+- Improved finding the site contexts absolute URL
 
 1.0.2-beta
 ==========
