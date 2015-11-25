@@ -64,4 +64,33 @@ if($enabled AND $event == 'OnSiteRefresh' AND $vp->setting['purge_website'])
 	$vp->purge($urls);
 }
 
+// Remove static file after file manager transaction
+if($enabled AND ( $event == 'OnFileManagerDirRemove' 
+	OR $event == 'OnFileManagerFileRemove'
+	OR $event == 'OnFileManagerFileUpdate'
+	OR $event == 'OnFileManagerMoveObject'
+	)  )
+{
+	
+	/* TODO: Can't bind to OnFileManagerFileRename and OnFileManagerDirRename because only newPath is delivered
+	and we need the old path to clean cache.
+	*/
 
+	// OnFileManagerDirRemove
+	if(isset($directory) && !empty($directory)) $url = $directory;
+
+	// OnFileManagerFileRemove AND OnFileManagerFileUpdate
+	if(isset($path) && !empty($path)) $url = $path;
+
+	// OnFileManagerMoveObject
+	if(isset($from) && !empty($from)) $url = $from;
+
+	if(isset($url) && !empty($url)) {
+
+		$url = str_replace(MODX_BASE_PATH, MODX_SITE_URL, $url);
+
+		$vp->purge(array($url));
+
+	}
+
+}
